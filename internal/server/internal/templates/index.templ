@@ -1,0 +1,209 @@
+package templates
+
+script openFileInput() {
+    const inputSelection = document.getElementById('fileInput')
+    inputSelection.click()
+}
+
+script uploadFile() {
+    const fileInput = document.getElementById('fileInput')
+    const file = fileInput.files[0]
+    
+    if (!file) {
+        return
+    }
+    
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('password', null)
+    
+    fetch('/files', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json()
+        }
+        throw new Error('Erro no upload do arquivo')
+    })
+    .then(data => {
+        console.log('Upload realizado com sucesso:', data)
+        alert('Arquivo enviado com sucesso!')
+    })
+    .catch(error => {
+        console.error('Erro:', error)
+        alert('Erro ao enviar arquivo: ' + error.message)
+    })
+}
+
+
+
+templ IndexPage() {
+    @basePage() {
+        <style>
+            .container {
+                background: rgba(255, 255, 255, 0.95);
+                border-radius: 20px;
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                backdrop-filter: blur(10px);
+                max-width: 800px;
+                width: 100%;
+                overflow: hidden;
+                animation: slideUp 0.8s ease-out;
+            }
+
+            @keyframes slideUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(50px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .header {
+                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+                padding: 40px 30px;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .header::before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+                animation: rotate 20s linear infinite;
+            }
+
+            @keyframes rotate {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+
+            .logo {
+                font-size: 4rem;
+                font-weight: 900;
+                color: white;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+                margin-bottom: 10px;
+                position: relative;
+                z-index: 1;
+                letter-spacing: 2px;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+                color: rgba(255, 255, 255, 0.9);
+                position: relative;
+                z-index: 1;
+                font-weight: 300;
+            }
+
+            .main-content {
+                padding: 40px 30px;
+            }
+
+            .upload-section {
+                background: #f8fafc;
+                border: 3px dashed #cbd5e0;
+                border-radius: 15px;
+                padding: 40px;
+                text-align: center;
+                transition: all 0.3s ease;
+                cursor: pointer;
+                position: relative;
+            }
+
+            .upload-section:hover {
+                border-color: #4facfe;
+                background: #f0f9ff;
+                transform: translateY(-2px);
+            }
+
+            .upload-section.dragover {
+                border-color: #00f2fe;
+                background: #e0f7fa;
+                transform: scale(1.02);
+            }
+
+            .upload-icon {
+                font-size: 4rem;
+                color: #64748b;
+                margin-bottom: 20px;
+                transition: all 0.3s ease;
+            }
+
+            .upload-section:hover .upload-icon {
+                color: #4facfe;
+                transform: scale(1.1);
+            }
+
+            .upload-text {
+                font-size: 1.5rem;
+                color: #334155;
+                margin-bottom: 10px;
+                font-weight: 600;
+            }
+
+            .file-input {
+                display: none;
+            }
+
+            .footer {
+                text-align: center;
+                color: rgba(255, 255, 255, 0.7);
+                margin-top: 20px;
+                font-size: 0.9rem;
+            }
+
+            .footer a {
+                color: rgba(255, 255, 255, 0.7);
+                text-decoration: none;
+            }
+
+            .footer a:hover {
+                color: rgba(255, 255, 255, 0.9);
+            }
+
+            @media (max-width: 768px) {
+                .logo {
+                    font-size: 3rem;
+                }
+
+                .main-content {
+                    padding: 30px 20px;
+                }
+
+                .upload-section {
+                    padding: 30px 20px;
+                }
+            }
+        </style>
+        <div class="container">
+            <div class="header">
+                <div class="logo">AYANAMI</div>
+                <div class="subtitle">Upload temporário de arquivo</div>
+            </div>
+
+            <div class="main-content">
+                <div class="upload-section" id="uploadArea" onclick={ openFileInput() }>
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">Clique para enviar seu arquivo</div>
+                    <input type="file" id="fileInput" class="file-input" onchange={ uploadFile() }>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            2025 Ayanami - <a href="https://discord.gg/8KxJNzTJzq">Takasaki</a>
+        </div>
+    }
+}

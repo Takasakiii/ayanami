@@ -1,9 +1,11 @@
 package server
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"github.com/Takasakiii/ayanami/internal/sender"
+	"github.com/Takasakiii/ayanami/internal/server/internal/templates"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -89,4 +91,10 @@ func (s Server) downloadFile(c *gin.Context) {
 		})
 		return
 	}
+}
+
+func (s Server) indexPage(c *gin.Context) {
+	background := context.Background()
+	page := templates.IndexPage()
+	_ = page.Render(background, c.Writer)
 }

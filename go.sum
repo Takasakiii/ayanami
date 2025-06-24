@@ -1,3 +1,5 @@
+github.com/a-h/templ v0.3.898 h1:g9oxL/dmM6tvwRe2egJS8hBDQTncokbMoOFk1oJMX7s=
+github.com/a-h/templ v0.3.898/go.mod h1:oLBbZVQ6//Q6zpvSMPTuBK0F3qOtBdFBcGRspcT+VNQ=
 github.com/bytedance/sonic v1.13.3 h1:MS8gmaH16Gtirygw7jV91pDCN33NyMrPbN7qiYhEsF0=
 github.com/bytedance/sonic v1.13.3/go.mod h1:o68xyaF9u2gvVBuGHPlUVCy+ZfmNNO5ETf1+KgkJhz4=
 github.com/bytedance/sonic/loader v0.1.1/go.mod h1:ncP89zfokxS5LZrJxl5z0UJcsk4M4yY2JpfqGeCtNLU=
