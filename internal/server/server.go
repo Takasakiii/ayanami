@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"github.com/Takasakiii/ayanami/internal/config"
 	"github.com/Takasakiii/ayanami/internal/filemanager"
+	"github.com/Takasakiii/ayanami/prisma/db"
 	"github.com/gin-gonic/gin"
 )
 
 type Server struct {
 	Config      *config.Server
 	FileManager *filemanager.FileManager
+	Database    *db.PrismaClient
 }
 
 func (s Server) StartWebServer() {
