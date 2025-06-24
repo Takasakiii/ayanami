@@ -2,22 +2,13 @@ package main
 
 import (
 	"github.com/Takasakiii/ayanami/internal/config"
+	"github.com/Takasakiii/ayanami/internal/database"
 	"github.com/Takasakiii/ayanami/internal/filemanager"
 	"github.com/Takasakiii/ayanami/internal/sender"
 	"github.com/Takasakiii/ayanami/internal/server"
-	"github.com/Takasakiii/ayanami/prisma/db"
 )
 
 func main() {
-	client := db.NewClient()
-	if err := client.Prisma.Connect(); err != nil {
-		panic(err)
-	}
-	defer func() {
-		if err := client.Prisma.Disconnect(); err != nil {
-			panic(err)
-		}
-	}()
 
 	conf := config.GetConfig()
 	sen, err := sender.NewFileBin(&conf.Senders.FileBin)
@@ -30,10 +21,12 @@ func main() {
 		panic(err)
 	}
 
+	db := database.GetDatabase()
+
 	webServer := server.Server{
 		Config:      &conf.Server,
 		FileManager: &fileMng,
-		Database:    client,
+		Database:    db,
 	}
 
 	webServer.StartWebServer()
