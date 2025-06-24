@@ -12,7 +12,7 @@ func GetDatabase() Database {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	err = db.AutoMigrate()
+	err = db.AutoMigrate(&File{})
 	if err != nil {
 		panic("failed to migrate database")
 	}
