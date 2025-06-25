@@ -3,11 +3,17 @@ package filemanager
 import (
 	"fmt"
 	"github.com/Takasakiii/ayanami/internal/crypt"
+	"github.com/Takasakiii/ayanami/internal/database"
 	"github.com/Takasakiii/ayanami/internal/file"
 	"mime/multipart"
 )
 
-func (f FileManager) UploadFile(fileRaw *multipart.FileHeader, password string) (string, error) {
+func (f FileManager) UploadFile(
+	fileRaw *multipart.FileHeader,
+	password string,
+	originIp string,
+	userAgent string) (string, error) {
+
 	if password == "" {
 		password = f.config.Secret
 	}
@@ -33,5 +39,13 @@ func (f FileManager) UploadFile(fileRaw *multipart.FileHeader, password string) 
 		return "", fmt.Errorf("filemanager uploadfile send: %v", err)
 	}
 
+	model := database.File{
+		Ip:        originIp,
+		FileName:  contentUrl,
+		UserAgent: userAgent,
+		MimeType:  absFile.MimeType,
+	}
+
+	f.database.Create(&model)
 	return contentUrl, nil
 }

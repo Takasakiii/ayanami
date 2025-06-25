@@ -3,15 +3,15 @@ package server
 import (
 	"fmt"
 	"github.com/Takasakiii/ayanami/internal/config"
-	"github.com/Takasakiii/ayanami/internal/database"
 	"github.com/Takasakiii/ayanami/internal/filemanager"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type Server struct {
 	Config      *config.Server
 	FileManager *filemanager.FileManager
-	Database    database.Database
+	Database    *gorm.DB
 }
 
 func (s Server) StartWebServer() {

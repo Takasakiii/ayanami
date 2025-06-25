@@ -16,12 +16,11 @@ func main() {
 		panic(err)
 	}
 
-	fileMng, err := filemanager.NewFileManager(&conf.File, &sen, &sen)
+	db := database.GetDatabase()
+	fileMng, err := filemanager.NewFileManager(&conf.File, &sen, &sen, db)
 	if err != nil {
 		panic(err)
 	}
-
-	db := database.GetDatabase()
 
 	webServer := server.Server{
 		Config:      &conf.Server,

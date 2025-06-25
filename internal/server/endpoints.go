@@ -36,7 +36,13 @@ func (s Server) uploadFile(c *gin.Context) {
 
 	password := c.PostForm("password")
 
-	fileId, err := s.FileManager.UploadFile(file, password)
+	ip := c.Request.Header.Get("CF-Connecting-Ip")
+	if ip == "" {
+		ip = c.RemoteIP()
+	}
+	userAgent := c.Request.Header.Get("User-Agent")
+
+	fileId, err := s.FileManager.UploadFile(file, password, ip, userAgent)
 	if err != nil {
 		log.Printf("[ERROR] upload file error: %v\n", err)
 		c.JSON(http.StatusInternalServerError, errorResponse{
