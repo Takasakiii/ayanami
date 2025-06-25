@@ -7,7 +7,7 @@ import (
 	"github.com/Takasakiii/ayanami/internal/file"
 )
 
-func (f FileManager) addFileInfo(fileInput *file.File) (*file.File, error) {
+func (f *FileManager) addFileInfo(fileInput *file.File) (*file.File, error) {
 	finalFile := *fileInput
 
 	var buf bytes.Buffer
@@ -26,7 +26,7 @@ func (f FileManager) addFileInfo(fileInput *file.File) (*file.File, error) {
 	}, nil
 }
 
-func (f FileManager) restoreOriginalFile(fileInput *file.File) (*file.File, error) {
+func (f *FileManager) restoreOriginalFile(fileInput *file.File) (*file.File, error) {
 	var finalFile file.File
 
 	buf := bytes.NewReader(fileInput.Content)

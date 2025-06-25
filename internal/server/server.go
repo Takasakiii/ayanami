@@ -14,7 +14,7 @@ type Server struct {
 	Database    *gorm.DB
 }
 
-func (s Server) StartWebServer() {
+func (s *Server) StartWebServer() {
 	g := gin.Default()
 	s.router(g)
 

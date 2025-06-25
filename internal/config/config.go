@@ -36,8 +36,8 @@ type S3 struct {
 	BucketPublicUrl string `json:"bucketPublicUrl"`
 }
 
-func newConfig() Config {
-	return Config{
+func newConfig() *Config {
+	return &Config{
 		Server: Server{
 			BindHost:  "127.0.0.1",
 			BindPort:  2000,

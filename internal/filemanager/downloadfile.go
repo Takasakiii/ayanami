@@ -6,7 +6,7 @@ import (
 	"github.com/Takasakiii/ayanami/internal/file"
 )
 
-func (f FileManager) DownloadFile(fileId string, password string) (*file.File, error) {
+func (f *FileManager) DownloadFile(fileId string, password string) (*file.File, error) {
 	downloadedFile, downloadErr := f.downloader.Download(fileId)
 	if downloadErr != nil {
 		return nil, downloadErr

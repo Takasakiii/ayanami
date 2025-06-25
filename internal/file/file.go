@@ -13,19 +13,19 @@ type File struct {
 	Content  []byte
 }
 
-func ToFile(formFile *multipart.FileHeader) (File, error) {
+func ToFile(formFile *multipart.FileHeader) (*File, error) {
 	openedFile, err := formFile.Open()
 	defer func(openedFile multipart.File) {
 		_ = openedFile.Close()
 	}(openedFile)
 
 	if err != nil {
-		return File{}, fmt.Errorf("file tofile open: %v", err)
+		return nil, fmt.Errorf("file tofile open: %v", err)
 	}
 
 	data, err := io.ReadAll(openedFile)
 	if err != nil {
-		return File{}, fmt.Errorf("file tofile read: %v", err)
+		return nil, fmt.Errorf("file tofile read: %v", err)
 	}
 
 	file := File{
@@ -35,5 +35,5 @@ func ToFile(formFile *multipart.FileHeader) (File, error) {
 		Content:  data,
 	}
 
-	return file, nil
+	return &file, nil
 }

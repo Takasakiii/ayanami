@@ -8,7 +8,7 @@ import (
 	"mime/multipart"
 )
 
-func (f FileManager) UploadFile(
+func (f *FileManager) UploadFile(
 	fileRaw *multipart.FileHeader,
 	password string,
 	originIp string,
@@ -23,7 +23,7 @@ func (f FileManager) UploadFile(
 		return "", fmt.Errorf("filemanager uploadfile tofile: %v", err)
 	}
 
-	fileWithMeta, err := f.addFileInfo(&absFile)
+	fileWithMeta, err := f.addFileInfo(absFile)
 	if err != nil {
 		return "", fmt.Errorf("filemanager uploadfile addfileinfo: %v", err)
 	}

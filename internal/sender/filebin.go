@@ -19,13 +19,13 @@ type FileBin struct {
 	httpClient *http.Client
 }
 
-func NewFileBin(config *config.FileBin) (FileBin, error) {
+func NewFileBin(config *config.FileBin) (*FileBin, error) {
 	cuid, err := cuid2.Init()
 	if err != nil {
-		return FileBin{}, err
+		return nil, err
 	}
 
-	return FileBin{
+	return &FileBin{
 		config:     config,
 		cuid:       cuid,
 		httpClient: &http.Client{},

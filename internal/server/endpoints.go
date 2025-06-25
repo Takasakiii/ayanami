@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-func (s Server) uploadFile(c *gin.Context) {
+func (s *Server) uploadFile(c *gin.Context) {
 	file, err := c.FormFile("file")
 	if err != nil {
 		c.JSON(http.StatusBadRequest, errorResponse{
@@ -57,7 +57,7 @@ func (s Server) uploadFile(c *gin.Context) {
 	})
 }
 
-func (s Server) downloadFile(c *gin.Context) {
+func (s *Server) downloadFile(c *gin.Context) {
 	fileId, found := c.Params.Get("fileId")
 	if !found {
 		c.JSON(http.StatusBadRequest, errorResponse{
@@ -99,7 +99,7 @@ func (s Server) downloadFile(c *gin.Context) {
 	}
 }
 
-func (s Server) indexPage(c *gin.Context) {
+func (s *Server) indexPage(c *gin.Context) {
 	background := context.Background()
 	page := templates.IndexPage()
 	_ = page.Render(background, c.Writer)

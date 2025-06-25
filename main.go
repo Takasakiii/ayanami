@@ -24,7 +24,7 @@ func main() {
 
 	webServer := server.Server{
 		Config:      &conf.Server,
-		FileManager: &fileMng,
+		FileManager: fileMng,
 		Database:    db,
 	}
 

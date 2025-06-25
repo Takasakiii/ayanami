@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func loadConfig() Config {
+func loadConfig() *Config {
 	config := newConfig()
 	configFile, err := os.Open(configFile)
 	defer func(configFile *os.File) {

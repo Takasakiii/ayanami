@@ -20,15 +20,15 @@ func NewFileManager(
 	config *config.File,
 	sender sender.Sender,
 	downloader sender.Downloader,
-	db *gorm.DB) (FileManager, error) {
+	db *gorm.DB) (*FileManager, error) {
 
 	cuid, err := cuid2.Init()
 
 	if err != nil {
-		return FileManager{}, fmt.Errorf("filemanager init cuid: %v", err)
+		return nil, fmt.Errorf("filemanager init cuid: %v", err)
 	}
 
-	return FileManager{
+	return &FileManager{
 		config:     config,
 		sender:     sender,
 		downloader: downloader,
