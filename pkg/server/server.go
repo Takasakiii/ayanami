@@ -2,16 +2,14 @@ package server
 
 import (
 	"fmt"
-	"github.com/Takasakiii/ayanami/internal/config"
-	"github.com/Takasakiii/ayanami/internal/filemanager"
+	"github.com/Takasakiii/ayanami/internal/file"
+	"github.com/Takasakiii/ayanami/pkg/config"
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 type Server struct {
-	Config      *config.Server
-	FileManager *filemanager.FileManager
-	Database    *gorm.DB
+	Config *config.Server
+	File   file.Service
 }
 
 func (s *Server) StartWebServer() {

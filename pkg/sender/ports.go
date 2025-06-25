@@ -5,9 +5,9 @@ import (
 )
 
 type Sender interface {
-	Send(file *file.File) (string, error)
+	Send(file *file.AbstractFile) (string, error)
 }
 
 type Downloader interface {
-	Download(fileId string) (*file.File, *DownloadError)
+	Download(fileId string) (*file.AbstractFile, *DownloadError)
 }

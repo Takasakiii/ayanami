@@ -1,19 +1,13 @@
-package file
+package service
 
 import (
 	"fmt"
+	"github.com/Takasakiii/ayanami/internal/file"
 	"io"
 	"mime/multipart"
 )
 
-type File struct {
-	FileName string
-	Size     int64
-	MimeType string
-	Content  []byte
-}
-
-func ToFile(formFile *multipart.FileHeader) (*File, error) {
+func toFile(formFile *multipart.FileHeader) (*file.AbstractFile, error) {
 	openedFile, err := formFile.Open()
 	defer func(openedFile multipart.File) {
 		_ = openedFile.Close()
@@ -28,12 +22,12 @@ func ToFile(formFile *multipart.FileHeader) (*File, error) {
 		return nil, fmt.Errorf("file tofile read: %v", err)
 	}
 
-	file := File{
+	abstractFile := file.AbstractFile{
 		FileName: formFile.Filename,
 		Size:     formFile.Size,
 		MimeType: formFile.Header.Get("Content-Type"),
 		Content:  data,
 	}
 
-	return &file, nil
+	return &abstractFile, nil
 }

@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/Takasakiii/ayanami/internal/config"
 	"github.com/Takasakiii/ayanami/internal/file"
+	"github.com/Takasakiii/ayanami/pkg/config"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	awsConfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
@@ -45,7 +45,7 @@ func NewS3Sender(conf *config.S3) (S3Sender, error) {
 	return S3Sender{client, conf, cuid}, nil
 }
 
-func (s *S3Sender) Send(file *file.File) (string, error) {
+func (s *S3Sender) Send(file *file.AbstractFile) (string, error) {
 	ctx := context.Background()
 	fileName := fmt.Sprintf("%s_%s", s.cuid(), file.FileName)
 
@@ -62,7 +62,7 @@ func (s *S3Sender) Send(file *file.File) (string, error) {
 	return fileName, nil
 }
 
-func (s *S3Sender) Download(fileId string) (*file.File, *DownloadError) {
+func (s *S3Sender) Download(fileId string) (*file.AbstractFile, *DownloadError) {
 	url := fmt.Sprintf("%s/%s", s.config.BucketPublicUrl, fileId)
 	response, err := http.Get(url)
 	if err != nil {

@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/Takasakiii/ayanami/internal/config"
 	"github.com/Takasakiii/ayanami/internal/file"
+	"github.com/Takasakiii/ayanami/pkg/config"
 	"github.com/nrednav/cuid2"
 	"io"
 	"net/http"
@@ -32,7 +32,7 @@ func NewFileBin(config *config.FileBin) (*FileBin, error) {
 	}, nil
 }
 
-func (f *FileBin) Send(file *file.File) (string, error) {
+func (f *FileBin) Send(file *file.AbstractFile) (string, error) {
 	bin := f.cuid()
 	cid := f.cuid()
 	fileName := url.QueryEscape(file.FileName)
@@ -72,7 +72,7 @@ func (f *FileBin) Send(file *file.File) (string, error) {
 	return fmt.Sprintf("%s_%s", bin, fileName), nil
 }
 
-func (f *FileBin) Download(fileId string) (*file.File, *DownloadError) {
+func (f *FileBin) Download(fileId string) (*file.AbstractFile, *DownloadError) {
 	binFileName := strings.Split(fileId, "_")
 	if len(binFileName) != 2 {
 		return nil, &DownloadError{

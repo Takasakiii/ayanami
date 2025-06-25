@@ -4,8 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/Takasakiii/ayanami/internal/sender"
-	"github.com/Takasakiii/ayanami/internal/server/internal/templates"
+	filePkg "github.com/Takasakiii/ayanami/internal/file"
+	"github.com/Takasakiii/ayanami/pkg/sender"
+	"github.com/Takasakiii/ayanami/pkg/server/internal/templates"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -41,8 +42,12 @@ func (s *Server) uploadFile(c *gin.Context) {
 		ip = c.RemoteIP()
 	}
 	userAgent := c.Request.Header.Get("User-Agent")
-
-	fileId, err := s.FileManager.UploadFile(file, password, ip, userAgent)
+	fileId, err := s.File.UploadFile(filePkg.UploadFileData{
+		File:       file,
+		Password:   password,
+		OriginalIp: ip,
+		UserAgent:  userAgent,
+	})
 	if err != nil {
 		log.Printf("[ERROR] upload file error: %v\n", err)
 		c.JSON(http.StatusInternalServerError, errorResponse{
@@ -68,7 +73,7 @@ func (s *Server) downloadFile(c *gin.Context) {
 
 	password := c.Query("password")
 
-	downloadedFile, downErr := s.FileManager.DownloadFile(fileId, password)
+	downloadedFile, downErr := s.File.DownloadFile(fileId, password)
 	if downErr != nil {
 		var castedDownloadError *sender.DownloadError
 		if errors.As(downErr, &castedDownloadError) && castedDownloadError.Type == sender.InvalidFileIdError {

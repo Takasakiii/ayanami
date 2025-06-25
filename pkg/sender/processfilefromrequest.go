@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func processFileFromRequest(res *http.Response, fileName string) (*file.File, *DownloadError) {
+func processFileFromRequest(res *http.Response, fileName string) (*file.AbstractFile, *DownloadError) {
 	body, err := io.ReadAll(res.Body)
 	defer func(Body io.ReadCloser) {
 		_ = Body.Close()
@@ -25,7 +25,7 @@ func processFileFromRequest(res *http.Response, fileName string) (*file.File, *D
 		}
 	}
 
-	return &file.File{
+	return &file.AbstractFile{
 		FileName: fileName,
 		Size:     int64(len(body)),
 		MimeType: res.Header.Get("content-type"),
