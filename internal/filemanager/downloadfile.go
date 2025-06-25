@@ -7,7 +7,7 @@ import (
 )
 
 func (f FileManager) DownloadFile(fileId string, password string) (*file.File, error) {
-	downloadedFile, downloadErr := f.sender.Download(fileId)
+	downloadedFile, downloadErr := f.downloader.Download(fileId)
 	if downloadErr != nil {
 		return nil, downloadErr
 	}

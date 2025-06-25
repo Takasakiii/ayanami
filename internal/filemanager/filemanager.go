@@ -8,12 +8,13 @@ import (
 )
 
 type FileManager struct {
-	config *config.File
-	sender sender.Sender
-	cuid   func() string
+	config     *config.File
+	sender     sender.Sender
+	cuid       func() string
+	downloader sender.Downloader
 }
 
-func NewFileManager(config *config.File, sender sender.Sender) (FileManager, error) {
+func NewFileManager(config *config.File, sender sender.Sender, downloader sender.Downloader) (FileManager, error) {
 	cuid, err := cuid2.Init()
 
 	if err != nil {
@@ -21,8 +22,9 @@ func NewFileManager(config *config.File, sender sender.Sender) (FileManager, err
 	}
 
 	return FileManager{
-		config: config,
-		sender: sender,
-		cuid:   cuid,
+		config:     config,
+		sender:     sender,
+		downloader: downloader,
+		cuid:       cuid,
 	}, nil
 }

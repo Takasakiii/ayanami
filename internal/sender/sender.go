@@ -6,5 +6,8 @@ import (
 
 type Sender interface {
 	Send(file *file.File) (string, error)
+}
+
+type Downloader interface {
 	Download(fileId string) (*file.File, *DownloadError)
 }

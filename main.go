@@ -11,12 +11,12 @@ import (
 func main() {
 
 	conf := config.GetConfig()
-	sen, err := sender.NewFileBin(&conf.Senders.FileBin)
+	sen, err := sender.NewS3Sender(&conf.Senders.S3)
 	if err != nil {
 		panic(err)
 	}
 
-	fileMng, err := filemanager.NewFileManager(&conf.File, &sen)
+	fileMng, err := filemanager.NewFileManager(&conf.File, &sen, &sen)
 	if err != nil {
 		panic(err)
 	}

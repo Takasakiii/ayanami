@@ -104,32 +104,10 @@ func (f *FileBin) Download(fileId string) (*file.File, *DownloadError) {
 		}
 	}
 
-	body, err := io.ReadAll(res.Body)
-	defer func(Body io.ReadCloser) {
-		_ = Body.Close()
-	}(res.Body)
-
-	if res.StatusCode != http.StatusOK {
-		var bodyResponse string
-		if err == nil {
-			bodyResponse = string(body)
-		}
-
-		return nil, &DownloadError{
-			Type: FailedToDownloadFileError,
-			Err:  fmt.Errorf("filebin download: http response: [%d] %s", res.StatusCode, bodyResponse),
-		}
-	}
-
 	var finalFileName string
 	if finalFileName, err = url.QueryUnescape(binFileName[1]); err != nil {
 		finalFileName = binFileName[1]
 	}
 
-	return &file.File{
-		FileName: finalFileName,
-		Size:     int64(len(body)),
-		MimeType: res.Header.Get("content-type"),
-		Content:  body,
-	}, nil
+	return processFileFromRequest(res, finalFileName)
 }

@@ -16,6 +16,7 @@ type Server struct {
 
 type Senders struct {
 	FileBin FileBin `json:"fileBin"`
+	S3      S3      `json:"s3"`
 }
 
 type FileBin struct {
@@ -24,6 +25,15 @@ type FileBin struct {
 
 type File struct {
 	Secret string `json:"secret"`
+}
+
+type S3 struct {
+	Region          string `json:"region"`
+	Endpoint        string `json:"endpoint"`
+	AccessKeyId     string `json:"accessKeyId"`
+	SecretAccessKey string `json:"secretAccessKey"`
+	Bucket          string `json:"bucket"`
+	BucketPublicUrl string `json:"bucketPublicUrl"`
 }
 
 func newConfig() Config {
@@ -36,6 +46,9 @@ func newConfig() Config {
 		Senders: Senders{
 			FileBin: FileBin{
 				BaseUrl: "https://filebin.net",
+			},
+			S3: S3{
+				Region: "auto",
 			},
 		},
 		File: File{
