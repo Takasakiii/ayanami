@@ -21,3 +21,11 @@ func (s *Server) StartWebServer() {
 		panic(err)
 	}
 }
+
+func (s *Server) GetConfig() *config.Server {
+	return s.Config
+}
+
+func (s *Server) GetFile() file.Service {
+	return s.File
+}

@@ -1,11 +1,14 @@
 package server
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/Takasakiii/ayanami/pkg/server/internal/handlers"
+	"github.com/gin-gonic/gin"
+)
 
 func (s *Server) router(engine *gin.Engine) {
 	file := engine.Group("/files")
-	file.POST("/", s.uploadFile)
-	file.GET("/:fileId", s.downloadFile)
+	file.POST("/", handlers.UploadFile(s))
+	file.GET("/:fileId", handlers.DownloadFile(s))
 
-	engine.GET("/", s.indexPage)
+	engine.GET("/", handlers.IndexPage())
 }
