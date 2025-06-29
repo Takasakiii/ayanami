@@ -1,44 +1,5 @@
 package templates
 
-script openFileInput() {
-    const inputSelection = document.getElementById('fileInput')
-    inputSelection.click()
-}
-
-script uploadFile() {
-    const fileInput = document.getElementById('fileInput')
-    const file = fileInput.files[0]
-    
-    if (!file) {
-        return
-    }
-    
-    const formData = new FormData()
-    formData.append('file', file)
-    formData.append('password', null)
-    
-    fetch('/files', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json()
-        }
-        throw new Error('Erro no upload do arquivo')
-    })
-    .then(data => {
-        console.log('Upload realizado com sucesso:', data)
-        alert('Arquivo enviado com sucesso!')
-    })
-    .catch(error => {
-        console.error('Erro:', error)
-        alert('Erro ao enviar arquivo: ' + error.message)
-    })
-}
-
-
-
 templ IndexPage() {
     @basePage() {
         <style>
@@ -157,6 +118,108 @@ templ IndexPage() {
                 display: none;
             }
 
+            /* Novos estilos para os elementos adicionados */
+            .btn {
+                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 10px;
+                font-size: 1rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin: 8px;
+                box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+            }
+
+            .btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+            }
+
+            .btn:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 10px rgba(79, 172, 254, 0.3);
+            }
+
+            .btn-secondary {
+                background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+                box-shadow: 0 4px 15px rgba(100, 116, 139, 0.3);
+            }
+
+            .btn-secondary:hover {
+                box-shadow: 0 8px 25px rgba(100, 116, 139, 0.4);
+            }
+
+            .password-input {
+                width: 100%;
+                max-width: 300px;
+                padding: 12px 16px;
+                border: 2px solid #e2e8f0;
+                border-radius: 10px;
+                font-size: 1rem;
+                margin: 10px 0;
+                transition: all 0.3s ease;
+                background: white;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .password-input:focus {
+                outline: none;
+                border-color: #4facfe;
+                box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+            }
+
+            .password-input::placeholder {
+                color: #94a3b8;
+            }
+
+            .upload-controls {
+                margin-top: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .response-section {
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                padding: 30px;
+                text-align: center;
+                border-radius: 15px;
+                color: white;
+                margin: 20px 0;
+                box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+                animation: slideUp 0.6s ease-out;
+            }
+
+            .response-label {
+                font-size: 1.2rem;
+                font-weight: 600;
+                margin-bottom: 15px;
+                opacity: 0.9;
+            }
+
+            .response-url {
+                display: inline-block;
+                background: rgba(255, 255, 255, 0.2);
+                padding: 12px 20px;
+                border-radius: 10px;
+                color: white;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                word-break: break-all;
+                backdrop-filter: blur(10px);
+            }
+
+            .response-url:hover {
+                background: rgba(255, 255, 255, 0.3);
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+
             .footer {
                 text-align: center;
                 color: rgba(255, 255, 255, 0.7);
@@ -185,21 +248,61 @@ templ IndexPage() {
                 .upload-section {
                     padding: 30px 20px;
                 }
+
+                .btn {
+                    padding: 10px 20px;
+                    font-size: 0.9rem;
+                }
+
+                .password-input {
+                    max-width: 250px;
+                }
+
+                .upload-controls {
+                    gap: 8px;
+                }
             }
         </style>
-        <div class="container">
+        <div x-data="{ filename: null, password: false, response: null }" class="container">
             <div class="header">
                 <div class="logo">AYANAMI</div>
                 <div class="subtitle">Upload temporário de arquivo</div>
             </div>
-
-            <div class="main-content">
-                <div class="upload-section" id="uploadArea" onclick={ openFileInput() }>
-                    <div class="upload-icon">📁</div>
-                    <div class="upload-text">Clique para enviar seu arquivo</div>
-                    <input type="file" id="fileInput" class="file-input" onchange={ uploadFile() }>
+            <template x-if="!response">
+                <form class="main-content" x-target="_none" method="POST" enctype="multipart/form-data"
+                            action="/files" @ajax:success="response = JSON.parse($event.detail.raw)"
+                            @ajax:error="alert('Falha ao enviar o arquivo')">
+                            <div  class="upload-section" @click="!filename && $refs.input_file?.click()">
+                                <div class="upload-icon">📁</div>
+                                <div x-show="!filename">
+                                    <div class="upload-text">Clique para enviar seu arquivo</div>
+                                    <input name="file" type="file" class="file-input" x-ref="input_file" @change="filename = $event.target.files[0].name">
+                                </div>
+                                <template x-if="filename">
+                                    <div>
+                                        <div class="upload-text">Enviar <span x-text="filename"></span></div>
+                                        <div class="upload-controls">
+                                            <template x-if="!password">
+                                                <button type="button" class="btn btn-secondary" @click="password = true">Adicionar Senha?</button>
+                                            </template>
+                                            <template x-if="password">
+                                                <input placeholder="Senha" name="password" type="password" class="password-input">
+                                            </template>
+                                            <button type="submit" class="btn">Enviar</button>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </form>
+            </template>
+            <template x-if="response">
+                <div class="main-content">
+                    <div class="response-section">
+                        <div class="response-label">Url do arquivo:</div>
+                        <a x-text="response.url" :href="response.url" class="response-url" target="_blank"></a>
+                    </div>
                 </div>
-            </div>
+            </template>
         </div>
 
         <div class="footer">

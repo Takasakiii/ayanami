@@ -8,55 +8,6 @@ package templates
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-func openFileInput() templ.ComponentScript {
-	return templ.ComponentScript{
-		Name: `__templ_openFileInput_151c`,
-		Function: `function __templ_openFileInput_151c(){const inputSelection = document.getElementById('fileInput')
-    inputSelection.click()
-}`,
-		Call:       templ.SafeScript(`__templ_openFileInput_151c`),
-		CallInline: templ.SafeScriptInline(`__templ_openFileInput_151c`),
-	}
-}
-
-func uploadFile() templ.ComponentScript {
-	return templ.ComponentScript{
-		Name: `__templ_uploadFile_1287`,
-		Function: `function __templ_uploadFile_1287(){const fileInput = document.getElementById('fileInput')
-    const file = fileInput.files[0]
-    
-    if (!file) {
-        return
-    }
-    
-    const formData = new FormData()
-    formData.append('file', file)
-    formData.append('password', null)
-    
-    fetch('/files', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json()
-        }
-        throw new Error('Erro no upload do arquivo')
-    })
-    .then(data => {
-        console.log('Upload realizado com sucesso:', data)
-        alert('Arquivo enviado com sucesso!')
-    })
-    .catch(error => {
-        console.error('Erro:', error)
-        alert('Erro ao enviar arquivo: ' + error.message)
-    })
-}`,
-		Call:       templ.SafeScript(`__templ_uploadFile_1287`),
-		CallInline: templ.SafeScriptInline(`__templ_uploadFile_1287`),
-	}
-}
-
 func IndexPage() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -90,41 +41,7 @@ func IndexPage() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<style>\n            .container {\n                background: rgba(255, 255, 255, 0.95);\n                border-radius: 20px;\n                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);\n                backdrop-filter: blur(10px);\n                max-width: 800px;\n                width: 100%;\n                overflow: hidden;\n                animation: slideUp 0.8s ease-out;\n            }\n\n            @keyframes slideUp {\n                from {\n                    opacity: 0;\n                    transform: translateY(50px);\n                }\n                to {\n                    opacity: 1;\n                    transform: translateY(0);\n                }\n            }\n\n            .header {\n                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);\n                padding: 40px 30px;\n                text-align: center;\n                position: relative;\n                overflow: hidden;\n            }\n\n            .header::before {\n                content: '';\n                position: absolute;\n                top: -50%;\n                left: -50%;\n                width: 200%;\n                height: 200%;\n                background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);\n                animation: rotate 20s linear infinite;\n            }\n\n            @keyframes rotate {\n                from { transform: rotate(0deg); }\n                to { transform: rotate(360deg); }\n            }\n\n            .logo {\n                font-size: 4rem;\n                font-weight: 900;\n                color: white;\n                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);\n                margin-bottom: 10px;\n                position: relative;\n                z-index: 1;\n                letter-spacing: 2px;\n            }\n\n            .subtitle {\n                font-size: 1.2rem;\n                color: rgba(255, 255, 255, 0.9);\n                position: relative;\n                z-index: 1;\n                font-weight: 300;\n            }\n\n            .main-content {\n                padding: 40px 30px;\n            }\n\n            .upload-section {\n                background: #f8fafc;\n                border: 3px dashed #cbd5e0;\n                border-radius: 15px;\n                padding: 40px;\n                text-align: center;\n                transition: all 0.3s ease;\n                cursor: pointer;\n                position: relative;\n            }\n\n            .upload-section:hover {\n                border-color: #4facfe;\n                background: #f0f9ff;\n                transform: translateY(-2px);\n            }\n\n            .upload-section.dragover {\n                border-color: #00f2fe;\n                background: #e0f7fa;\n                transform: scale(1.02);\n            }\n\n            .upload-icon {\n                font-size: 4rem;\n                color: #64748b;\n                margin-bottom: 20px;\n                transition: all 0.3s ease;\n            }\n\n            .upload-section:hover .upload-icon {\n                color: #4facfe;\n                transform: scale(1.1);\n            }\n\n            .upload-text {\n                font-size: 1.5rem;\n                color: #334155;\n                margin-bottom: 10px;\n                font-weight: 600;\n            }\n\n            .file-input {\n                display: none;\n            }\n\n            .footer {\n                text-align: center;\n                color: rgba(255, 255, 255, 0.7);\n                margin-top: 20px;\n                font-size: 0.9rem;\n            }\n\n            .footer a {\n                color: rgba(255, 255, 255, 0.7);\n                text-decoration: none;\n            }\n\n            .footer a:hover {\n                color: rgba(255, 255, 255, 0.9);\n            }\n\n            @media (max-width: 768px) {\n                .logo {\n                    font-size: 3rem;\n                }\n\n                .main-content {\n                    padding: 30px 20px;\n                }\n\n                .upload-section {\n                    padding: 30px 20px;\n                }\n            }\n        </style> <div class=\"container\"><div class=\"header\"><div class=\"logo\">AYANAMI</div><div class=\"subtitle\">Upload temporário de arquivo</div></div><div class=\"main-content\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.RenderScriptItems(ctx, templ_7745c5c3_Buffer, openFileInput())
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"upload-section\" id=\"uploadArea\" onclick=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var3 templ.ComponentScript = openFileInput()
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3.Call)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"><div class=\"upload-icon\">📁</div><div class=\"upload-text\">Clique para enviar seu arquivo</div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.RenderScriptItems(ctx, templ_7745c5c3_Buffer, uploadFile())
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<input type=\"file\" id=\"fileInput\" class=\"file-input\" onchange=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var4 templ.ComponentScript = uploadFile()
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var4.Call)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\"></div></div></div><div class=\"footer\">2025 Ayanami - <a href=\"https://discord.gg/8KxJNzTJzq\">Takasaki</a></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<style>\n            .container {\n                background: rgba(255, 255, 255, 0.95);\n                border-radius: 20px;\n                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);\n                backdrop-filter: blur(10px);\n                max-width: 800px;\n                width: 100%;\n                overflow: hidden;\n                animation: slideUp 0.8s ease-out;\n            }\n\n            @keyframes slideUp {\n                from {\n                    opacity: 0;\n                    transform: translateY(50px);\n                }\n                to {\n                    opacity: 1;\n                    transform: translateY(0);\n                }\n            }\n\n            .header {\n                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);\n                padding: 40px 30px;\n                text-align: center;\n                position: relative;\n                overflow: hidden;\n            }\n\n            .header::before {\n                content: '';\n                position: absolute;\n                top: -50%;\n                left: -50%;\n                width: 200%;\n                height: 200%;\n                background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);\n                animation: rotate 20s linear infinite;\n            }\n\n            @keyframes rotate {\n                from { transform: rotate(0deg); }\n                to { transform: rotate(360deg); }\n            }\n\n            .logo {\n                font-size: 4rem;\n                font-weight: 900;\n                color: white;\n                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);\n                margin-bottom: 10px;\n                position: relative;\n                z-index: 1;\n                letter-spacing: 2px;\n            }\n\n            .subtitle {\n                font-size: 1.2rem;\n                color: rgba(255, 255, 255, 0.9);\n                position: relative;\n                z-index: 1;\n                font-weight: 300;\n            }\n\n            .main-content {\n                padding: 40px 30px;\n            }\n\n            .upload-section {\n                background: #f8fafc;\n                border: 3px dashed #cbd5e0;\n                border-radius: 15px;\n                padding: 40px;\n                text-align: center;\n                transition: all 0.3s ease;\n                cursor: pointer;\n                position: relative;\n            }\n\n            .upload-section:hover {\n                border-color: #4facfe;\n                background: #f0f9ff;\n                transform: translateY(-2px);\n            }\n\n            .upload-section.dragover {\n                border-color: #00f2fe;\n                background: #e0f7fa;\n                transform: scale(1.02);\n            }\n\n            .upload-icon {\n                font-size: 4rem;\n                color: #64748b;\n                margin-bottom: 20px;\n                transition: all 0.3s ease;\n            }\n\n            .upload-section:hover .upload-icon {\n                color: #4facfe;\n                transform: scale(1.1);\n            }\n\n            .upload-text {\n                font-size: 1.5rem;\n                color: #334155;\n                margin-bottom: 10px;\n                font-weight: 600;\n            }\n\n            .file-input {\n                display: none;\n            }\n\n            /* Novos estilos para os elementos adicionados */\n            .btn {\n                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);\n                color: white;\n                border: none;\n                padding: 12px 24px;\n                border-radius: 10px;\n                font-size: 1rem;\n                font-weight: 600;\n                cursor: pointer;\n                transition: all 0.3s ease;\n                margin: 8px;\n                box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);\n            }\n\n            .btn:hover {\n                transform: translateY(-2px);\n                box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);\n            }\n\n            .btn:active {\n                transform: translateY(0);\n                box-shadow: 0 2px 10px rgba(79, 172, 254, 0.3);\n            }\n\n            .btn-secondary {\n                background: linear-gradient(135deg, #64748b 0%, #475569 100%);\n                box-shadow: 0 4px 15px rgba(100, 116, 139, 0.3);\n            }\n\n            .btn-secondary:hover {\n                box-shadow: 0 8px 25px rgba(100, 116, 139, 0.4);\n            }\n\n            .password-input {\n                width: 100%;\n                max-width: 300px;\n                padding: 12px 16px;\n                border: 2px solid #e2e8f0;\n                border-radius: 10px;\n                font-size: 1rem;\n                margin: 10px 0;\n                transition: all 0.3s ease;\n                background: white;\n                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\n            }\n\n            .password-input:focus {\n                outline: none;\n                border-color: #4facfe;\n                box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);\n            }\n\n            .password-input::placeholder {\n                color: #94a3b8;\n            }\n\n            .upload-controls {\n                margin-top: 20px;\n                display: flex;\n                flex-direction: column;\n                align-items: center;\n                gap: 10px;\n            }\n\n            .response-section {\n                background: linear-gradient(135deg, #10b981 0%, #059669 100%);\n                padding: 30px;\n                text-align: center;\n                border-radius: 15px;\n                color: white;\n                margin: 20px 0;\n                box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);\n                animation: slideUp 0.6s ease-out;\n            }\n\n            .response-label {\n                font-size: 1.2rem;\n                font-weight: 600;\n                margin-bottom: 15px;\n                opacity: 0.9;\n            }\n\n            .response-url {\n                display: inline-block;\n                background: rgba(255, 255, 255, 0.2);\n                padding: 12px 20px;\n                border-radius: 10px;\n                color: white;\n                text-decoration: none;\n                font-weight: 600;\n                transition: all 0.3s ease;\n                word-break: break-all;\n                backdrop-filter: blur(10px);\n            }\n\n            .response-url:hover {\n                background: rgba(255, 255, 255, 0.3);\n                transform: translateY(-2px);\n                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);\n            }\n\n            .footer {\n                text-align: center;\n                color: rgba(255, 255, 255, 0.7);\n                margin-top: 20px;\n                font-size: 0.9rem;\n            }\n\n            .footer a {\n                color: rgba(255, 255, 255, 0.7);\n                text-decoration: none;\n            }\n\n            .footer a:hover {\n                color: rgba(255, 255, 255, 0.9);\n            }\n\n            @media (max-width: 768px) {\n                .logo {\n                    font-size: 3rem;\n                }\n\n                .main-content {\n                    padding: 30px 20px;\n                }\n\n                .upload-section {\n                    padding: 30px 20px;\n                }\n\n                .btn {\n                    padding: 10px 20px;\n                    font-size: 0.9rem;\n                }\n\n                .password-input {\n                    max-width: 250px;\n                }\n\n                .upload-controls {\n                    gap: 8px;\n                }\n            }\n        </style> <div x-data=\"{ filename: null, password: false, response: null }\" class=\"container\"><div class=\"header\"><div class=\"logo\">AYANAMI</div><div class=\"subtitle\">Upload temporário de arquivo</div></div><template x-if=\"!response\"><form class=\"main-content\" x-target=\"_none\" method=\"POST\" enctype=\"multipart/form-data\" action=\"/files\" @ajax:success=\"response = JSON.parse($event.detail.raw)\"><div class=\"upload-section\" @click=\"!filename && $refs.input_file?.click()\"><div class=\"upload-icon\">📁</div><div x-show=\"!filename\"><div class=\"upload-text\">Clique para enviar seu arquivo</div><input name=\"file\" type=\"file\" class=\"file-input\" x-ref=\"input_file\" @change=\"filename = $event.target.files[0].name\"></div><template x-if=\"filename\"><div><div class=\"upload-text\">Enviar <span x-text=\"filename\"></span></div><div class=\"upload-controls\"><template x-if=\"!password\"><button type=\"button\" class=\"btn btn-secondary\" @click=\"password = true\">Adicionar Senha?</button></template><template x-if=\"password\"><input placeholder=\"Senha\" name=\"password\" type=\"password\" class=\"password-input\"></template><button type=\"submit\" class=\"btn\">Enviar</button></div></div></template></div></form></template><template x-if=\"response\"><div class=\"main-content\"><div class=\"response-section\"><div class=\"response-label\">Url do arquivo:</div><a x-text=\"response.url\" :href=\"response.url\" class=\"response-url\" target=\"_blank\"></a></div></div></template></div><div class=\"footer\">2025 Ayanami - <a href=\"https://discord.gg/8KxJNzTJzq\">Takasaki</a></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
