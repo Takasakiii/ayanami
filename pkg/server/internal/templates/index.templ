@@ -220,6 +220,33 @@ templ IndexPage() {
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             }
 
+            .password-info {
+                background: rgba(255, 255, 255, 0.08);
+                padding: 12px 16px;
+                border-radius: 8px;
+                margin-top: 15px;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                backdrop-filter: blur(5px);
+                font-size: 0.8rem;
+                line-height: 1.4;
+                text-align: center;
+                opacity: 0.85;
+                color: rgba(255, 255, 255, 0.9);
+            }
+
+            .password-syntax {
+                background: rgba(255, 255, 255, 0.15);
+                padding: 3px 8px;
+                border-radius: 4px;
+                font-family: 'Courier New', monospace;
+                font-weight: 500;
+                color: #fde68a;
+                display: inline-block;
+                margin: 0 2px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                font-size: 0.75rem;
+            }
+
             .footer {
                 text-align: center;
                 color: rgba(255, 255, 255, 0.7);
@@ -300,6 +327,11 @@ templ IndexPage() {
                     <div class="response-section">
                         <div class="response-label">Url do arquivo:</div>
                         <a x-text="response.url" :href="response.url" class="response-url" target="_blank"></a>
+                        <template x-if="password">
+                            <div class="password-info">
+                                <span>Arquivo criado com senha, para abri-lo deve colocar no final da url <span class="password-syntax">?password=[senha escolhida]</span></span>
+                            </div>
+                        </template>
                     </div>
                 </div>
             </template>
