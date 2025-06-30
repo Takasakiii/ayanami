@@ -7,4 +7,5 @@ type File struct {
 	FileName  string `gorm:"size:255;not null;unique"`
 	UserAgent string `gorm:"size:255;not null"`
 	MimeType  string `gorm:"size:255;not null"`
+	Permanent bool   `gorm:"not null;default:false;index"`
 }
