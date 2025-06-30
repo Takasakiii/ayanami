@@ -247,6 +247,55 @@ templ IndexPage() {
                 font-size: 0.75rem;
             }
 
+            .response-actions {
+                margin-top: 25px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .btn-outline {
+                background: rgba(255, 255, 255, 0.2);
+                color: white;
+                border: 2px solid rgba(255, 255, 255, 0.4);
+                padding: 10px 20px;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(10px);
+            }
+
+            .btn-outline:hover {
+                background: rgba(255, 255, 255, 0.3);
+                border-color: rgba(255, 255, 255, 0.6);
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            }
+
+            .btn-copy {
+                background: rgba(34, 197, 94, 0.2);
+                border-color: rgba(34, 197, 94, 0.4);
+            }
+
+            .btn-copy:hover {
+                background: rgba(34, 197, 94, 0.3);
+                border-color: rgba(34, 197, 94, 0.6);
+            }
+
+            .btn-reset {
+                background: rgba(239, 68, 68, 0.2);
+                border-color: rgba(239, 68, 68, 0.4);
+            }
+
+            .btn-reset:hover {
+                background: rgba(239, 68, 68, 0.3);
+                border-color: rgba(239, 68, 68, 0.6);
+            }
+
             .footer {
                 text-align: center;
                 color: rgba(255, 255, 255, 0.7);
@@ -288,6 +337,18 @@ templ IndexPage() {
                 .upload-controls {
                     gap: 8px;
                 }
+
+                .response-actions {
+                    flex-direction: column;
+                    gap: 8px;
+                }
+
+                .btn-outline {
+                    padding: 8px 16px;
+                    font-size: 0.85rem;
+                    width: 100%;
+                    max-width: 250px;
+                }
             }
         </style>
         <div x-data="{ filename: null, password: false, response: null }" class="container">
@@ -298,6 +359,7 @@ templ IndexPage() {
             <template x-if="!response">
                 <form class="main-content" x-target="_none" method="POST" enctype="multipart/form-data"
                             action="/files" @ajax:success="response = JSON.parse($event.detail.raw)"
+                            @ajax:send="password = $event.detail.body.get('password') ?? false"
                             @ajax:error="alert('Falha ao enviar o arquivo')">
                             <div  class="upload-section" @click="!filename && $refs.input_file?.click()">
                                 <div class="upload-icon">📁</div>
@@ -332,6 +394,14 @@ templ IndexPage() {
                                 <span>Arquivo criado com senha, para abri-lo deve colocar no final da url <span class="password-syntax">?password=[senha escolhida]</span></span>
                             </div>
                         </template>
+
+                        <div class="response-actions">
+                            <button type="button" class="btn-outline btn-reset" @click="filename = null; password = false; response = null">Enviar outro arquivo</button>
+                            <button type="button" class="btn-outline btn-copy" @click="_ = navigator.clipboard.writeText(response.url)">Copiar url</button>
+                            <template x-if="password">
+                                <button type="button" class="btn-outline btn-copy" @click="_ = navigator.clipboard.writeText(`${response.url}?password=${password}`)">Copiar url com senha</button>
+                            </template>
+                       </div>
                     </div>
                 </div>
             </template>
