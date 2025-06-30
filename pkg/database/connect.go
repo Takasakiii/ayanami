@@ -11,6 +11,7 @@ func (d *GormDatabase) ConnectDatabase() error {
 	if err != nil {
 		return fmt.Errorf("database connection failed: %v", err)
 	}
+	db = db.Debug()
 
 	d.connection = db
 	return nil
