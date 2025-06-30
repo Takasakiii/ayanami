@@ -7,7 +7,6 @@ import (
 	"github.com/Takasakiii/ayanami/pkg/config"
 	"github.com/Takasakiii/ayanami/pkg/cuid"
 	"github.com/Takasakiii/ayanami/pkg/database"
-	"github.com/Takasakiii/ayanami/pkg/jobs"
 	"github.com/Takasakiii/ayanami/pkg/sender"
 	"github.com/Takasakiii/ayanami/pkg/server"
 )
@@ -36,11 +35,11 @@ func main() {
 
 	file := service.NewService(&conf.File, &sen, cuidGenerator, &sen, repo)
 
-	j := jobs.NewJobs(file)
-	err = j.Init()
-	if err != nil {
-		panic(err)
-	}
+	//j := jobs.NewJobs(file)
+	//err = j.Init()
+	//if err != nil {
+	//	panic(err)
+	//}
 
 	webServer := server.Server{
 		Config: &conf.Server,

@@ -11,4 +11,5 @@ type Service interface {
 type Repository interface {
 	AddFile(data *File) error
 	DeleteExpired(maxTime time.Time) error
+	GetExpired(maxTime time.Time) ([]string, error)
 }
