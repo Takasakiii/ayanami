@@ -27,14 +27,16 @@ func NewS3Sender(conf *config.S3) (S3Sender, error) {
 			conf.AccessKeyId,
 			conf.SecretAccessKey, ""),
 		),
-		awsConfig.WithRegion(conf.Region))
+		awsConfig.WithRegion(conf.Region),
+		awsConfig.WithBaseEndpoint(conf.Endpoint),
+	)
 
 	if err != nil {
 		return S3Sender{}, fmt.Errorf("s3 sender loaddefaultconfig: %v", err)
 	}
 
 	client := s3.NewFromConfig(cfg, func(options *s3.Options) {
-		options.BaseEndpoint = aws.String(conf.Endpoint)
+		options.UsePathStyle = true
 	})
 
 	cuid, err := cuid2.Init()
