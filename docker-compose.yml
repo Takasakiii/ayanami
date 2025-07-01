@@ -1,0 +1,13 @@
+services:
+  ayanami:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - GIN_MODE=release
+    ports:
+      - 2000:2000
+    volumes:
+      - ./ayanami:/app/data
+      - ./config.json:/app/config.json
+    restart: unless-stopped
