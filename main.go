@@ -1,5 +1,5 @@
 //go:generate go tool templ generate
-//go:generate go run github.com/google/wire/cmd/wire
+//go:generate go tool wire
 
 package main
 
