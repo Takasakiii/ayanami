@@ -3,6 +3,8 @@
 
 package main
 
+import "github.com/Takasakiii/ayanami/internal/file"
+
 func main() {
 	app, err := InitializeApp()
 	if err != nil {
@@ -13,7 +15,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	err = app.db.Migrate()
+	err = app.db.Migrate(&file.File{})
 	if err != nil {
 		panic(err)
 	}
