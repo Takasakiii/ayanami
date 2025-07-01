@@ -16,13 +16,13 @@ type FileService struct {
 }
 
 func NewService(
-	conf *config.File,
+	conf *config.Config,
 	sender sender.Sender,
 	cuid cuid.Generator,
 	downloader sender.Downloader,
 	repository file.Repository) *FileService {
 	return &FileService{
-		config:     conf,
+		config:     &conf.File,
 		sender:     sender,
 		cuid:       cuid,
 		downloader: downloader,

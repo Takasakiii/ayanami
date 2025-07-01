@@ -1,50 +1,22 @@
+//go:generate go tool templ generate
+//go:generate go run github.com/google/wire/cmd/wire
+
 package main
 
-import (
-	filePkg "github.com/Takasakiii/ayanami/internal/file"
-	"github.com/Takasakiii/ayanami/internal/file/repository"
-	"github.com/Takasakiii/ayanami/internal/file/service"
-	"github.com/Takasakiii/ayanami/pkg/config"
-	"github.com/Takasakiii/ayanami/pkg/cuid"
-	"github.com/Takasakiii/ayanami/pkg/database"
-	"github.com/Takasakiii/ayanami/pkg/sender"
-	"github.com/Takasakiii/ayanami/pkg/server"
-)
-
 func main() {
-	conf := config.GetConfig()
-	sen, err := sender.NewS3Sender(&conf.Senders.S3)
-	if err != nil {
-		panic(err)
-	}
-	cuidGenerator, err := cuid.NewCuid()
+	app, err := InitializeApp()
 	if err != nil {
 		panic(err)
 	}
 
-	db := database.NewGormDatabase()
-	err = db.ConnectDatabase()
+	err = app.db.ConnectDatabase()
 	if err != nil {
 		panic(err)
 	}
-	err = db.Migrate(&filePkg.File{})
+	err = app.db.Migrate()
 	if err != nil {
 		panic(err)
 	}
-	repo := repository.NewFileRepository(db)
 
-	file := service.NewService(&conf.File, &sen, cuidGenerator, &sen, repo)
-
-	//j := jobs.NewJobs(file)
-	//err = j.Init()
-	//if err != nil {
-	//	panic(err)
-	//}
-
-	webServer := server.Server{
-		Config: &conf.Server,
-		File:   file,
-	}
-
-	webServer.StartWebServer()
+	app.webServer.StartWebServer()
 }

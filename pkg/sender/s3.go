@@ -20,7 +20,8 @@ type S3Sender struct {
 	cuid   func() string
 }
 
-func NewS3Sender(conf *config.S3) (S3Sender, error) {
+func NewS3Sender(c *config.Config) (*S3Sender, error) {
+	conf := &c.Senders.S3
 	cfg, err := awsConfig.LoadDefaultConfig(
 		context.TODO(),
 		awsConfig.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
@@ -32,7 +33,7 @@ func NewS3Sender(conf *config.S3) (S3Sender, error) {
 	)
 
 	if err != nil {
-		return S3Sender{}, fmt.Errorf("s3 sender loaddefaultconfig: %v", err)
+		return nil, fmt.Errorf("s3 sender loaddefaultconfig: %v", err)
 	}
 
 	client := s3.NewFromConfig(cfg, func(options *s3.Options) {
@@ -41,10 +42,10 @@ func NewS3Sender(conf *config.S3) (S3Sender, error) {
 
 	cuid, err := cuid2.Init()
 	if err != nil {
-		return S3Sender{}, fmt.Errorf("s3 sender init cuid: %v", err)
+		return nil, fmt.Errorf("s3 sender init cuid: %v", err)
 	}
 
-	return S3Sender{client, conf, cuid}, nil
+	return &S3Sender{client, conf, cuid}, nil
 }
 
 func (s *S3Sender) Send(file *file.AbstractFile) (string, error) {

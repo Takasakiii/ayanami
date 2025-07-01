@@ -29,3 +29,10 @@ func (s *Server) GetConfig() *config.Server {
 func (s *Server) GetFile() file.Service {
 	return s.File
 }
+
+func NewServer(c *config.Config, fileService file.Service) *Server {
+	return &Server{
+		Config: &c.Server,
+		File:   fileService,
+	}
+}
