@@ -30,6 +30,7 @@ var senderSet = wire.NewSet(
 var databaseSet = wire.NewSet(
 	database.NewGormDatabase,
 	wire.Bind(new(database.Database), new(*database.GormDatabase)))
+
 var fileRepositorySet = wire.NewSet(
 	databaseSet,
 	repository.NewFileRepository,

@@ -3,9 +3,10 @@ package config
 const configFile = "config.json"
 
 type Config struct {
-	Server  Server  `json:"server"`
-	Senders Senders `json:"senders"`
-	File    File    `json:"file"`
+	Database Database `json:"database"`
+	Server   Server   `json:"server"`
+	Senders  Senders  `json:"senders"`
+	File     File     `json:"file"`
 }
 
 type Server struct {
@@ -27,6 +28,10 @@ type File struct {
 	Secret string `json:"secret"`
 }
 
+type Database struct {
+	ConnectionString string `json:"connectionString"`
+}
+
 type S3 struct {
 	Region          string `json:"region"`
 	Endpoint        string `json:"endpoint"`
@@ -38,6 +43,9 @@ type S3 struct {
 
 func newConfig() *Config {
 	return &Config{
+		Database: Database{
+			ConnectionString: "database.db",
+		},
 		Server: Server{
 			BindHost:  "127.0.0.1",
 			BindPort:  2000,

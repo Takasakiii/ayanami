@@ -30,7 +30,7 @@ func InitializeApp() (*App, error) {
 	if err != nil {
 		return nil, err
 	}
-	gormDatabase := database.NewGormDatabase()
+	gormDatabase := database.NewGormDatabase(configConfig)
 	fileRepository := repository.NewFileRepository(gormDatabase)
 	fileService := service.NewService(configConfig, s3Sender, cuidCuid, s3Sender, fileRepository)
 	serverServer := server.NewServer(configConfig, fileService)
