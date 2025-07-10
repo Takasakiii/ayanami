@@ -1,4 +1,4 @@
-FROM golang:alpine AS build
+FROM --platform=amd64 golang:alpine AS build
 WORKDIR /app
 
 RUN apk add --no-cache gcc musl-dev
