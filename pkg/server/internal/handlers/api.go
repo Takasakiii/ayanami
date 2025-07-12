@@ -98,6 +98,7 @@ func DownloadFile(s internal.Server) gin.HandlerFunc {
 		c.Header("Accept-Length", fmt.Sprintf("%d", downloadedFile.Size))
 		c.Header("Cache-Control", "public, max-age=31536000, s-maxage=31536000, immutable, stale-while-revalidate=86400, stale-if-error=2592000")
 		c.Header("Vary", "Accept-Encoding")
+		c.Header("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", downloadedFile.FileName))
 
 		_, err := c.Writer.Write(downloadedFile.Content)
 		if err != nil {
