@@ -1,388 +1,65 @@
 package templates
 
+
 templ IndexPage() {
     @basePage() {
-        <style>
-            .container {
-                background: rgba(255, 255, 255, 0.95);
-                border-radius: 20px;
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-                backdrop-filter: blur(10px);
-                max-width: 800px;
-                width: 100%;
-                overflow: hidden;
-                animation: slideUp 0.8s ease-out;
-            }
-
-            @keyframes slideUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(50px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            .header {
-                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-                padding: 40px 30px;
-                text-align: center;
-                position: relative;
-                overflow: hidden;
-            }
-
-            .header::before {
-                content: '';
-                position: absolute;
-                top: -50%;
-                left: -50%;
-                width: 200%;
-                height: 200%;
-                background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-                animation: rotate 20s linear infinite;
-            }
-
-            @keyframes rotate {
-                from { transform: rotate(0deg); }
-                to { transform: rotate(360deg); }
-            }
-
-            .logo {
-                font-size: 4rem;
-                font-weight: 900;
-                color: white;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-                margin-bottom: 10px;
-                position: relative;
-                z-index: 1;
-                letter-spacing: 2px;
-            }
-
-            .subtitle {
-                font-size: 1.2rem;
-                color: rgba(255, 255, 255, 0.9);
-                position: relative;
-                z-index: 1;
-                font-weight: 300;
-            }
-
-            .main-content {
-                padding: 40px 30px;
-            }
-
-            .upload-section {
-                background: #f8fafc;
-                border: 3px dashed #cbd5e0;
-                border-radius: 15px;
-                padding: 40px;
-                text-align: center;
-                transition: all 0.3s ease;
-                cursor: pointer;
-                position: relative;
-            }
-
-            .upload-section:hover {
-                border-color: #4facfe;
-                background: #f0f9ff;
-                transform: translateY(-2px);
-            }
-
-            .upload-section.dragover {
-                border-color: #00f2fe;
-                background: #e0f7fa;
-                transform: scale(1.02);
-            }
-
-            .upload-icon {
-                font-size: 4rem;
-                color: #64748b;
-                margin-bottom: 20px;
-                transition: all 0.3s ease;
-            }
-
-            .upload-section:hover .upload-icon {
-                color: #4facfe;
-                transform: scale(1.1);
-            }
-
-            .upload-text {
-                font-size: 1.5rem;
-                color: #334155;
-                margin-bottom: 10px;
-                font-weight: 600;
-            }
-
-            .file-input {
-                display: none;
-            }
-
-            /* Novos estilos para os elementos adicionados */
-            .btn {
-                background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-                color: white;
-                border: none;
-                padding: 12px 24px;
-                border-radius: 10px;
-                font-size: 1rem;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                margin: 8px;
-                box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
-            }
-
-            .btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
-            }
-
-            .btn:active {
-                transform: translateY(0);
-                box-shadow: 0 2px 10px rgba(79, 172, 254, 0.3);
-            }
-
-            .btn-secondary {
-                background: linear-gradient(135deg, #64748b 0%, #475569 100%);
-                box-shadow: 0 4px 15px rgba(100, 116, 139, 0.3);
-            }
-
-            .btn-secondary:hover {
-                box-shadow: 0 8px 25px rgba(100, 116, 139, 0.4);
-            }
-
-            .password-input {
-                width: 100%;
-                max-width: 300px;
-                padding: 12px 16px;
-                border: 2px solid #e2e8f0;
-                border-radius: 10px;
-                font-size: 1rem;
-                margin: 10px 0;
-                transition: all 0.3s ease;
-                background: white;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            }
-
-            .password-input:focus {
-                outline: none;
-                border-color: #4facfe;
-                box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
-            }
-
-            .password-input::placeholder {
-                color: #94a3b8;
-            }
-
-            .upload-controls {
-                margin-top: 20px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-            }
-
-            .response-section {
-                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-                padding: 30px;
-                text-align: center;
-                border-radius: 15px;
-                color: white;
-                margin: 20px 0;
-                box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
-                animation: slideUp 0.6s ease-out;
-            }
-
-            .response-label {
-                font-size: 1.2rem;
-                font-weight: 600;
-                margin-bottom: 15px;
-                opacity: 0.9;
-            }
-
-            .response-url {
-                display: inline-block;
-                background: rgba(255, 255, 255, 0.2);
-                padding: 12px 20px;
-                border-radius: 10px;
-                color: white;
-                text-decoration: none;
-                font-weight: 600;
-                transition: all 0.3s ease;
-                word-break: break-all;
-                backdrop-filter: blur(10px);
-            }
-
-            .response-url:hover {
-                background: rgba(255, 255, 255, 0.3);
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            }
-
-            .password-info {
-                background: rgba(255, 255, 255, 0.08);
-                padding: 12px 16px;
-                border-radius: 8px;
-                margin-top: 15px;
-                border: 1px solid rgba(255, 255, 255, 0.15);
-                backdrop-filter: blur(5px);
-                font-size: 0.8rem;
-                line-height: 1.4;
-                text-align: center;
-                opacity: 0.85;
-                color: rgba(255, 255, 255, 0.9);
-            }
-
-            .password-syntax {
-                background: rgba(255, 255, 255, 0.15);
-                padding: 3px 8px;
-                border-radius: 4px;
-                font-family: 'Courier New', monospace;
-                font-weight: 500;
-                color: #fde68a;
-                display: inline-block;
-                margin: 0 2px;
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                font-size: 0.75rem;
-            }
-
-            .response-actions {
-                margin-top: 25px;
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .btn-outline {
-                background: rgba(255, 255, 255, 0.2);
-                color: white;
-                border: 2px solid rgba(255, 255, 255, 0.4);
-                padding: 10px 20px;
-                border-radius: 8px;
-                font-size: 0.9rem;
-                font-weight: 600;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                backdrop-filter: blur(10px);
-            }
-
-            .btn-outline:hover {
-                background: rgba(255, 255, 255, 0.3);
-                border-color: rgba(255, 255, 255, 0.6);
-                transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            }
-
-            .btn-copy {
-                background: rgba(34, 197, 94, 0.2);
-                border-color: rgba(34, 197, 94, 0.4);
-            }
-
-            .btn-copy:hover {
-                background: rgba(34, 197, 94, 0.3);
-                border-color: rgba(34, 197, 94, 0.6);
-            }
-
-            .btn-reset {
-                background: rgba(239, 68, 68, 0.2);
-                border-color: rgba(239, 68, 68, 0.4);
-            }
-
-            .btn-reset:hover {
-                background: rgba(239, 68, 68, 0.3);
-                border-color: rgba(239, 68, 68, 0.6);
-            }
-
-            .footer {
-                text-align: center;
-                color: rgba(255, 255, 255, 0.7);
-                margin-top: 20px;
-                font-size: 0.9rem;
-            }
-
-            .footer a {
-                color: rgba(255, 255, 255, 0.7);
-                text-decoration: none;
-            }
-
-            .footer a:hover {
-                color: rgba(255, 255, 255, 0.9);
-            }
-
-            @media (max-width: 768px) {
-                .logo {
-                    font-size: 3rem;
-                }
-
-                .main-content {
-                    padding: 30px 20px;
-                }
-
-                .upload-section {
-                    padding: 30px 20px;
-                }
-
-                .btn {
-                    padding: 10px 20px;
-                    font-size: 0.9rem;
-                }
-
-                .password-input {
-                    max-width: 250px;
-                }
-
-                .upload-controls {
-                    gap: 8px;
-                }
-
-                .response-actions {
-                    flex-direction: column;
-                    gap: 8px;
-                }
-
-                .btn-outline {
-                    padding: 8px 16px;
-                    font-size: 0.85rem;
-                    width: 100%;
-                    max-width: 250px;
-                }
-            }
-        </style>
-        <div x-data="{ filename: null, password: false, response: null }" class="container">
+        <link rel="stylesheet" href="/static/assets/pages/index/style.css" >
+        <script src="/static/assets/pages/index/index.js"></script>
+        <div x-data="indexInitializer()" class="container">
             <div class="header">
                 <div class="logo">AYANAMI</div>
                 <div class="subtitle">Upload temporário de arquivo</div>
             </div>
             <template x-if="!response">
-                <form class="main-content" x-target="_none" method="POST" enctype="multipart/form-data"
-                            action="/files" @ajax:success="response = JSON.parse($event.detail.raw)"
-                            @ajax:send="password = $event.detail.body.get('password') ?? false"
-                            @ajax:error="alert('Falha ao enviar o arquivo')">
-                            <div  class="upload-section" @click="!filename && $refs.input_file?.click()">
-                                <div class="upload-icon">📁</div>
-                                <div x-show="!filename">
-                                    <div class="upload-text">Clique para enviar seu arquivo</div>
-                                    <input name="file" type="file" class="file-input" x-ref="input_file" @change="filename = $event.target.files[0].name">
-                                </div>
-                                <template x-if="filename">
-                                    <div>
-                                        <div class="upload-text">Enviar <span x-text="filename"></span></div>
-                                        <div class="upload-controls">
-                                            <template x-if="!password">
-                                                <button type="button" class="btn btn-secondary" @click="password = true">Adicionar Senha?</button>
-                                            </template>
-                                            <template x-if="password">
-                                                <input placeholder="Senha" name="password" type="password" class="password-input">
-                                            </template>
-                                            <button type="submit" class="btn">Enviar</button>
+                <form class="main-content" x-ref="form" method="POST" action="/files" @submit.prevent="upload()">
+                    <div  class="upload-section" @click="!filename && $refs.input_file?.click()">
+                        <div class="upload-icon">📁</div>
+                        <div x-show="!filename">
+                            <div class="upload-text">Clique para enviar seu arquivo</div>
+                            <input name="file" type="file" class="file-input" x-ref="input_file" @change="filename = $event.target.files[0].name">
+                        </div>
+                        <template x-if="filename">
+                            <div>
+                                <div class="upload-text">Enviar <span x-text="filename"></span></div>
+                                
+                                <div x-show="progress !== false"
+                                     x-transition:enter="transition-opacity duration-200 ease-out"
+                                     x-transition:enter-start="opacity-0"
+                                     x-transition:enter-end="opacity-100"
+                                     x-transition:leave="transition-opacity duration-200 ease-in"
+                                     x-transition:leave-start="opacity-100"
+                                     x-transition:leave-end="opacity-0"
+                                     class="progress-container">
+                                    <div class="progress-bar"
+                                         role="progressbar"
+                                         :aria-valuenow="progress"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"
+                                         :aria-label="`Upload ${progress}%`">
+                                        <div class="progress-track">
+                                            <div class="progress-fill"
+                                                 :style="`width: ${Math.max(0, Math.min(100, progress || 0))}%`"
+                                                 :class="progress === 100 ? 'success' : 'loading'"></div>
+                                        </div>
+                                        <div class="progress-info">
+                                            <div class="progress-percentage" x-text="`${Math.round(progress || 0)}%`"></div>
                                         </div>
                                     </div>
-                                </template>
+                                </div>
+                                
+                                <div class="upload-controls">
+                                    <template x-if="!password">
+                                        <button type="button" class="btn btn-secondary" @click="password = true">Adicionar Senha?</button>
+                                    </template>
+                                    <template x-if="password">
+                                        <input placeholder="Senha" name="password" type="password" class="password-input">
+                                    </template>
+                                    <button type="submit" class="btn" :disabled="progress !== false">Enviar</button>
+                                </div>
                             </div>
-                        </form>
+                        </template>
+                    </div>
+                </form>
             </template>
             <template x-if="response">
                 <div class="main-content">
