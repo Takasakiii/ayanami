@@ -19,7 +19,6 @@ function indexInitializer() {
             xhr.upload.addEventListener('progress', (e) => {
                 if(!e.lengthComputable) return
                 this.progress = Math.round((e.loaded / e.total) * 100)
-                console.log(this.progress)
             })
 
             xhr.upload.addEventListener('loadend', () => {
