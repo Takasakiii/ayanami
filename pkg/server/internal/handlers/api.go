@@ -29,7 +29,7 @@ func UploadFile(s internal.Server) gin.HandlerFunc {
 			return
 		}
 
-		if file.Size > 100*1024*1024 {
+		if file.Size > 256*1024*1024 {
 			c.JSON(http.StatusBadRequest, responses.ErrorResponse{
 				Error: "file is too big",
 			})
