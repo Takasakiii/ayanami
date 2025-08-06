@@ -37,6 +37,12 @@ function indexInitializer() {
 
             xhr.open(form.method, form.action)
             xhr.send(data)
+        },
+        generateQrCode(element, value) {
+            new QRious({
+                element: document.getElementById(element),
+                value: value
+            })
         }
     }
 }

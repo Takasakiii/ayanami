@@ -307,6 +307,46 @@
     color: rgba(255, 255, 255, 0.9);
 }
 
+/* QR Code Styling */
+#qrcode {
+    display: none;
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    margin: 20px auto;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    animation: fadeInScale 0.5s ease-out;
+}
+
+#qrcode:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Show QR code when it has content */
+#qrcode[src]:not([src=""]) {
+    display: block;
+}
+
 @media (max-width: 768px) {
     .logo {
         font-size: 3rem;

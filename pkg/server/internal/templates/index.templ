@@ -4,6 +4,7 @@ package templates
 templ IndexPage() {
     @basePage() {
         <link rel="stylesheet" href="/static/assets/pages/index/style.css" >
+        <script src="/static/assets/lib/qrious.min.js"></script>
         <script src="/static/assets/pages/index/index.js"></script>
         <div x-data="indexInitializer()" class="container">
             <div class="header">
@@ -66,6 +67,9 @@ templ IndexPage() {
                     <div class="response-section">
                         <div class="response-label">Url do arquivo:</div>
                         <a x-text="response.url" :href="response.url" class="response-url" target="_blank"></a>
+
+                        <img id="qrcode">
+
                         <template x-if="password">
                             <div class="password-info">
                                 <span>Arquivo criado com senha, para abri-lo deve colocar no final da url <span class="password-syntax">?password=[senha escolhida]</span></span>
@@ -78,6 +82,7 @@ templ IndexPage() {
                             <template x-if="password">
                                 <button type="button" class="btn-outline btn-copy" @click="_ = navigator.clipboard.writeText(`${response.url}?password=${password}`)">Copiar url com senha</button>
                             </template>
+                            <button type="button" class="btn-outline" @click="generateQrCode('qrcode', response.url)">Visualizar QrCode</button>
                        </div>
                     </div>
                 </div>
